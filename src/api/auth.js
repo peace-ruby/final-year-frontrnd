@@ -1,4 +1,5 @@
-const API_BASE = '/api/auth';
+const DEFAULT_API_URL = 'https://final-year-backend-b1fp.onrender.com/api';
+const API_BASE = `${(import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : DEFAULT_API_URL)).replace(/\/$/, '')}/auth`;
 
 const parseResponse = async (response) => {
   let data;

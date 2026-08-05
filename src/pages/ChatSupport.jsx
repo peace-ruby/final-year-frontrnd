@@ -7,6 +7,8 @@ const initialMessages = [
     { id: 1, author: 'bot', message: 'Hello! I’m here to support you. How are you feeling today?', timestamp: '09:12 AM' },
 ];
 
+const CHAT_API_URL = `${(import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'https://final-year-backend-b1fp.onrender.com/api')).replace(/\/$/, '')}/chat`;
+
 function ChatSupport() {
     const [messages, setMessages] = useState(() => {
         const saved = localStorage.getItem('chatHistory');
@@ -50,7 +52,7 @@ function ChatSupport() {
         });
 
         try {
-            const response = await fetch('https://final-year-backend-b1fp.onrender.com/api/chat', {
+            const response = await fetch(CHAT_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: chatHistory })

@@ -7,9 +7,9 @@ function FeatureCard({ Icon, title, description }) {
             <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
             <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{description}</p>
         </article>
-       
+
     );
-        
+
 }
 
 export default FeatureCard;
