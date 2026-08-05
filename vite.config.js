@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
+        target: 'https://final-year-backend-b1fp.onrender.com',
         changeOrigin: true,
         secure: false,
       },

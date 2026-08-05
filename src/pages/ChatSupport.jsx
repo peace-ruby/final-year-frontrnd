@@ -19,7 +19,7 @@ function ChatSupport() {
         }
         return initialMessages;
     });
-    
+
     useEffect(() => {
         localStorage.setItem('chatHistory', JSON.stringify(messages));
     }, [messages]);
@@ -31,7 +31,7 @@ function ChatSupport() {
         if (!text.trim() || isLoading) return;
         const now = new Date();
         const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
+
         const userMessage = { id: Date.now(), author: 'user', message: text, timestamp: formattedTime };
         setMessages((current) => [...current, userMessage]);
         setInput('');
@@ -50,7 +50,7 @@ function ChatSupport() {
         });
 
         try {
-            const response = await fetch('http://localhost:4000/api/chat', {
+            const response = await fetch('https://final-year-backend-b1fp.onrender.com/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: chatHistory })
@@ -67,9 +67,9 @@ function ChatSupport() {
             const decoder = new TextDecoder('utf-8');
             let aiMessage = '';
             const botMessageId = Date.now();
-            
+
             setMessages((current) => [...current, { id: botMessageId, author: 'bot', message: '', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
-            
+
             setIsLoading(false);
 
             while (true) {
@@ -78,19 +78,19 @@ function ChatSupport() {
 
                 const chunk = decoder.decode(value, { stream: true });
                 const lines = chunk.split('\n');
-                
+
                 for (const line of lines) {
                     if (line.startsWith('data: ')) {
                         const dataStr = line.replace('data: ', '').trim();
                         if (dataStr === '[DONE]') break;
                         if (!dataStr) continue;
-                        
+
                         try {
                             const data = JSON.parse(dataStr);
                             aiMessage += data.content;
-                            
-                            setMessages((current) => 
-                                current.map(msg => 
+
+                            setMessages((current) =>
+                                current.map(msg =>
                                     msg.id === botMessageId ? { ...msg, message: aiMessage } : msg
                                 )
                             );
